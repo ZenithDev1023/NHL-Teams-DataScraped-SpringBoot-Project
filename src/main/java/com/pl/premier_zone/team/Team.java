@@ -6,28 +6,33 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="nhl_player_stats")
+@Table(name="player_statistics")
 public class Team {
     // Fields
     @Id
-    @Column(name="name", unique = true)
-    private String name;
+    @Column(name="team_name")
+    private String teamName;
+
     private int year;
+
     private int wins;
+
     private int losses;
+
     private float pct;
+
     private int gf;
+
     private int ga;
+
     private int diff;
 
     // Default Constructor
-    public Team() {
-
-    }
+    public Team() {}
 
     // Parameterized Constructor
-    public Team(String name, int year, int wins, int losses, float pct, int gf, int ga, int diff) {
-        this.name = name;
+    public Team(String teamName, int year, int wins, int losses, float pct, int gf, int ga, int diff) {
+        this.teamName = teamName;
         this.year = year;
         this.wins = wins;
         this.losses = losses;
@@ -38,7 +43,7 @@ public class Team {
     }
 
     // Getters
-    public String getName() { return name; }
+    public String getTeamName() { return teamName; }
     public int getYear() { return year; }
     public int getWins() { return wins; }
     public int getLosses() { return losses; }
@@ -49,7 +54,7 @@ public class Team {
 
 
     // Setters
-    public void setName(String name) { this.name = name; }
+    public void setTeamName(String teamName) { this.teamName = teamName; }
     public void setYear(int year) { this.year = year; }
     public void setWins(int wins) { this.wins = wins; }
     public void setLosses(int losses) { this.losses = losses; }

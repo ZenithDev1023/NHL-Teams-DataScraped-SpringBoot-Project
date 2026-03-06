@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.Collections;
 
 @Component
 public class TeamService {
@@ -22,14 +23,30 @@ public class TeamService {
     }
 
     public List<Team> getTeamsByName(String teamName) {
-        return teamRepository.findAll().stream()
-                .filter(team -> teamName.equals(team.getName()))
-                .collect(Collectors.toList());
+        return teamRepository.findByTeamName(teamName)
+            .map(Collections::singletonList)
+            .orElse(Collections.emptyList());
     }
+
+    public List<Team> getTeamByNameAndYear(String teamName, int year) {
+        return teamRepository.findByTeamNameAndYear(teamName, year);
+    }
+
+    public List<Team> getTeamByNameAndWins(String teamName, int wins) {
+        return teamRepository.findByTeamNameAndWins(teamName, wins);
+    }
+
+    public List<Team> getTeamByNameAndLosses(String teamName, int losses) {
+        return teamRepository.findByTeamNameAndLosses(teamName, losses);
+    }
+
+
+
+
 
     public List<Team> getTeamByNameSearch(String searchText) {
         return teamRepository.findAll().stream()
-                .filter(team -> team.getName().toLowerCase().contains(searchText.toLowerCase()))
+                .filter(team -> team.getTeamName().toLowerCase().contains(searchText.toLowerCase()))
                 .collect(Collectors.toList());
     }
 
@@ -41,25 +58,7 @@ public class TeamService {
 
     public List<Team> getTeamByNation(String searchText) {
         return teamRepository.findAll().stream()
-                .filter(team -> team.getName().toLowerCase().contains(searchText.toLowerCase()))
-                .collect(Collectors.toList());
-    }
-
-    public List<Team> getTeamByNameAndYear(String teamName, int year) {
-        return teamRepository.findAll().stream()
-                .filter(team -> teamName.equals(team.getName()) && team.getYear() == year)
-                .collect(Collectors.toList());
-    }
-
-    public List<Team> getTeamByNameAndWins(String teamName, int wins) {
-        return teamRepository.findAll().stream()
-                .filter(team -> teamName.equals(team.getName()) && team.getWins() == wins)
-                .collect(Collectors.toList());
-    }
-
-    public List<Team> getTeamByNameAndLosses(String teamName, int losses) {
-        return teamRepository.findAll().stream()
-                .filter(team -> teamName.equals(team.getName()) && team.getLosses() == losses)
+                .filter(team -> team.getTeamName().toLowerCase().contains(searchText.toLowerCase()))
                 .collect(Collectors.toList());
     }
 
@@ -70,11 +69,11 @@ public class TeamService {
     }
 
     public Team updateTeam(Team updatedTeam) {
-        Optional<Team> existingTeam = teamRepository.findByName(updatedTeam.getName());
+        Optional<Team> existingTeam = teamRepository.findByTeamName(updatedTeam.getTeamName());
 
         if (existingTeam.isPresent()) {
             Team teamToUpdate = existingTeam.get();
-            teamToUpdate.setName(updatedTeam.getName());
+            teamToUpdate.setTeamName(updatedTeam.getTeamName());
             teamToUpdate.setYear(updatedTeam.getYear());
             teamToUpdate.setWins(updatedTeam.getWins());
             teamToUpdate.setLosses(updatedTeam.getLosses());
@@ -91,7 +90,7 @@ public class TeamService {
 
     @Transactional
     public void deleteTeam(String teamName) {
-        teamRepository.deleteByName(teamName);
+        teamRepository.deleteByTeamName(teamName);
     }
 
 

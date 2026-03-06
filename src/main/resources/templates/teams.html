@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <title>NHL Teams</title>
+</head>
+
+<body>
+
+<h1>NHL Teams</h1>
+<p>This page is working with Thymeleaf!</p>
+
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Year</th>
+        <th>Wins</th>
+        <th>Losses</th>
+        <th>Win %</th>
+        <th>Goals For</th>
+        <th>Goals Against</th>
+        <th>Goal Diff</th>
+    </tr>
+
+    <tr th:each="team : ${teams}">
+        <td th:text="${team.teamName}"></td>
+        <td th:text="${team.year}"></td>
+        <td th:text="${team.wins}"></td>
+        <td th:text="${team.losses}"></td>
+        <td th:text="${team.pct}"></td>
+        <td th:text="${team.gf}"></td>
+        <td th:text="${team.ga}"></td>
+        <td th:text="${team.diff}"></td>
+    </tr>
+
+</table>
+
+</body>
+</html>

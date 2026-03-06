@@ -21,21 +21,21 @@ public class TeamController {
 
     @GetMapping
     public List<Team> getTeams(
-            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String teamName,
             @RequestParam(required = false) int year,
             @RequestParam(required = false) int wins,
             @RequestParam(required = false) int losses) {
-        if (name != null && year >= 1990) {
-            return teamService.getTeamByNameAndYear(name, year);
+        if (teamName != null && year >= 1990) {
+            return teamService.getTeamByNameAndYear(teamName, year);
         }
-        else if (name != null) {
-            return teamService.getTeamsByName(name);
+        else if (teamName != null) {
+            return teamService.getTeamsByName(teamName);
         }
-        else if (name != null && wins >= 0) {
-            return teamService.getTeamByNameAndWins(name, wins);
+        else if (teamName != null && wins >= 0) {
+            return teamService.getTeamByNameAndWins(teamName, wins);
         }
-        else if (name != null && losses >= 0) {
-            return teamService.getTeamByNameAndLosses(name, losses);
+        else if (teamName != null && losses >= 0) {
+            return teamService.getTeamByNameAndLosses(teamName, losses);
         }
         else {
             return teamService.getTeams();
@@ -50,7 +50,7 @@ public class TeamController {
     }
 
     @PutMapping
-    public ResponseEntity<Team> updatePlayer(@RequestBody Team team) {
+    public ResponseEntity<Team> updateTeam(@RequestBody Team team) {
         Team updateTeam = teamService.updateTeam(team);
         if (updateTeam != null) {
             return new ResponseEntity<>(updateTeam, HttpStatus.OK);
@@ -59,9 +59,9 @@ public class TeamController {
         }
     }
 
-    @DeleteMapping("/(teamName)")
-    public ResponseEntity<String> deletePlayer(@PathVariable String teamName) {
+    @DeleteMapping("/{teamName}")
+    public ResponseEntity<String> deleteTeam(@PathVariable String teamName) {
         teamService.deleteTeam(teamName);
-        return new ResponseEntity<>("Player deleted successfully!", HttpStatus.OK);
+        return new ResponseEntity<>("Team deleted successfully!", HttpStatus.OK);
     }
 }
